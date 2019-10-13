@@ -16,7 +16,7 @@ public class ExampleRankUse {
         launchServer();
 
         List<PlayerData> dataList = new LinkedList<>();
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 300; i++) { //simulate with 300 fake players
             dataList.add(new PlayerDataImpl());
         }
 
