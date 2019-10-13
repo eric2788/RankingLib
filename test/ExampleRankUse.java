@@ -49,7 +49,7 @@ public class ExampleRankUse {
 
         api.registerCalculator("min-max", (playerData, ladderRanks, arrayData) -> {
             double min = Arrays.stream(arrayData.getScores()).reduce(Math::min).orElseThrow(() -> new IllegalStateException("cannot find min score"));
-            double max = Arrays.stream(arrayData.getScores()).reduce(Math::max).orElseThrow(() -> new IllegalStateException("cannot find min score"));
+            double max = Arrays.stream(arrayData.getScores()).reduce(Math::max).orElseThrow(() -> new IllegalStateException("cannot find max score"));
             double v = playerData.getScore();
             double result = (v - min) / (max - min) * (ladderRanks.size() - 1) + 0;
             RankDataImpl rank = (RankDataImpl) ladderRanks.get((int) Math.round(result));
