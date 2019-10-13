@@ -5,23 +5,22 @@ import com.ericlam.mc.rankcal.ArrayData;
 import java.util.Arrays;
 
 public final class ArrayCalculation implements ArrayData {
-    private double[] ints;
+    private double[] doubles;
     private double mean;
     private double sd;
     private double variance;
 
     /**
-     * @param ints int array
+     * @param doubles int array
      */
-    ArrayCalculation(double... ints) {
-        this.ints = ints;
-        this.mean = Arrays.stream(ints).average().orElseThrow(()-> new IllegalStateException("Cannot find mean"));
-        this.variance = Arrays.stream(ints).map(i -> Math.pow((i - mean), 2)).sum() / ints.length;
+    ArrayCalculation(double... doubles) {
+        this.doubles = doubles;
+        this.mean = Arrays.stream(doubles).average().orElseThrow(() -> new IllegalStateException("Cannot find mean"));
+        this.variance = Arrays.stream(doubles).map(i -> Math.pow((i - mean), 2)).sum() / doubles.length;
         sd = Math.sqrt(variance);
     }
 
     /**
-     *
      * @return mean
      */
     public double getMean() {
@@ -29,15 +28,18 @@ public final class ArrayCalculation implements ArrayData {
     }
 
     /**
-     *
      * @return standard deviation
      */
     public double getSd() {
         return sd;
     }
 
+    @Override
+    public double[] getScores() {
+        return doubles;
+    }
+
     /**
-     *
      * @return variance
      */
     public double getVariance() {
@@ -46,9 +48,9 @@ public final class ArrayCalculation implements ArrayData {
 
     @Override
     public String toString() {
-        return "Array: "+ Arrays.toString(ints)+
-                "\n"+"Mean: "+mean+
-                "\n"+"Variance: "+variance+
-                "\n"+"Standard Deviation: "+sd;
+        return "Array: " + Arrays.toString(doubles) +
+                "\n" + "Mean: " + mean +
+                "\n" + "Variance: " + variance +
+                "\n" + "Standard Deviation: " + sd;
     }
 }

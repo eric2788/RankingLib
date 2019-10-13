@@ -42,6 +42,6 @@ public class RankDataImpl implements RankData {
 
     @Override
     public int compareTo(RankData o) {
-        return Integer.compare(this.ladder, ((RankDataImpl)o).ladder);
+        return Integer.compare(this.ladder, ((RankDataImpl) o).ladder);
     }
 }

@@ -10,7 +10,7 @@ public final class RankDataHandlerBuilder implements RankDataFactory {
     private List<PlayerData> playerData = new LinkedList<>();
     private Map<String, RankDataCalculator> calculatorMap = new HashMap<>();
 
-    RankDataHandlerBuilder(Map<String, RankDataCalculator> calculatorMap){
+    RankDataHandlerBuilder(Map<String, RankDataCalculator> calculatorMap) {
         this.calculatorMap = calculatorMap;
     }
 

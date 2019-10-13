@@ -8,4 +8,6 @@ public interface ArrayData {
 
     double getSd();
 
+    double[] getScores();
+
 }

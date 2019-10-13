@@ -14,32 +14,31 @@ public final class AdvMath {
      * @param num num
      * @return number length
      */
-    public static int getLength(long num){
-        num = num>0?num:-num;
-        if (num==0) {
+    public static int getLength(long num) {
+        num = num > 0 ? num : -num;
+        if (num == 0) {
             return 1;
         }
-        return (int) Math.log10(num)+1;
+        return (int) Math.log10(num) + 1;
 
     }
 
     /**
-     *
      * @param num num
      * @return number length
      */
-    public static int getLength(double num){
-        return getLength((long)num);
+    public static int getLength(double num) {
+        return getLength((long) num);
     }
 
     /**
      * when over 0.5. round up, else round down
      *
-     * @param f round length
+     * @param f   round length
      * @param num value
      * @return rounded value
      */
-    public static double round(int f,double num){
+    public static double round(int f, double num) {
         BigDecimal decimal = new BigDecimal(num);
         return decimal.round(new MathContext(f, RoundingMode.HALF_EVEN)).doubleValue();
     }
@@ -47,11 +46,11 @@ public final class AdvMath {
     /**
      * round up
      *
-     * @param f round number
+     * @param f   round number
      * @param num value
      * @return rounded value
      */
-    public static double roundCil(int f,double num){
+    public static double roundCil(int f, double num) {
         BigDecimal decimal = new BigDecimal(num);
         return decimal.round(new MathContext(f, RoundingMode.CEILING)).doubleValue();
     }
@@ -59,34 +58,32 @@ public final class AdvMath {
     /**
      * round down
      *
-     * @param f round number
+     * @param f   round number
      * @param num value
      * @return rounded value
      */
-    public static double roundFlr(int f,double num){
+    public static double roundFlr(int f, double num) {
         BigDecimal decimal = new BigDecimal(num);
         return decimal.round(new MathContext(f, RoundingMode.FLOOR)).doubleValue();
     }
 
     /**
-     *
-     * @param row Set
+     * @param row     Set
      * @param contain SubSet
      * @return Set contain subset
      */
-    public static boolean contain(double[] row, double[] contain){
+    public static boolean contain(double[] row, double[] contain) {
         List<Double> a = toDoubleList(row);
         List<Double> b = toDoubleList(contain);
         return a.containsAll(b);
     }
 
     /**
-     *
-     * @param row Set
+     * @param row   Set
      * @param value value
      * @return how many times that value contain in Set
      */
-    public static long count(double[] row, double value){
+    public static long count(double[] row, double value) {
         long count = 0;
         for (double v : row) {
             if (v == value) ++count;
@@ -95,25 +92,23 @@ public final class AdvMath {
     }
 
     /**
-     *
      * @param tables Tables
-     * @param set SubSet
+     * @param set    SubSet
      * @return How many tables does subset have
      */
-    public static long count(double[][] tables, double[] set){
+    public static long count(double[][] tables, double[] set) {
         long count = 0;
         for (double[] row : tables) {
-            if (contain(row,set)) ++count;
+            if (contain(row, set)) ++count;
         }
         return count;
     }
 
     /**
-     *
      * @param arr double array
      * @return double List
      */
-    public static List<Double> toDoubleList(double[] arr){
+    public static List<Double> toDoubleList(double[] arr) {
         List<Double> d = new ArrayList<>();
         for (double v : arr) {
             d.add(v);
@@ -122,11 +117,10 @@ public final class AdvMath {
     }
 
     /**
-     *
      * @param arr object array
      * @return double array
      */
-    public static double[] toHashDoubleArray(Object[] arr){
+    public static double[] toHashDoubleArray(Object[] arr) {
         double[] result = new double[arr.length];
         for (int i = 0; i < arr.length; i++) {
             result[i] = arr[i].hashCode();
@@ -135,10 +129,9 @@ public final class AdvMath {
     }
 
     /**
-     *
      * @param total total
-     * @param a first item value
-     * @param b second item value
+     * @param a     first item value
+     * @param b     second item value
      * @return Gini Index
      */
     public static double gini(double total, double a, double b) {
@@ -147,10 +140,9 @@ public final class AdvMath {
     }
 
     /**
-     *
      * @param total total value
-     * @param a first item value
-     * @param b second item value
+     * @param a     first item value
+     * @param b     second item value
      * @return entropy value
      */
     public static double entropy(double total, double a, double b) {
@@ -159,10 +151,9 @@ public final class AdvMath {
     }
 
     /**
-     *
      * @param total total value
-     * @param a first item value
-     * @param b second item value
+     * @param a     first item value
+     * @param b     second item value
      * @return computed error rate
      */
     public static double computeErr(double total, double a, double b) {

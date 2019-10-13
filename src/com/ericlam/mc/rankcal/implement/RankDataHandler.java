@@ -22,7 +22,7 @@ public final class RankDataHandler implements RankDataManager {
     private Map<String, RankDataCalculator> calculatorMap;
     private ArrayCalculation arrayCalculation;
     private Map<UUID, RankData> rankDataMap = new ConcurrentHashMap<>();
-    private String currentMethod = "NONE";
+    private String currentMethod = "z-score"; // Default Calculator
 
     RankDataHandler(TreeSet<RankData> rankData, List<PlayerData> playerData, Map<String, RankDataCalculator> calculatorMap) {
         this.rankData = rankData;
@@ -33,13 +33,13 @@ public final class RankDataHandler implements RankDataManager {
 
     @Override
     public CompletableFuture<ImmutableMap<UUID, RankData>> doCalculate(String method) {
-        return CompletableFuture.supplyAsync(()->{
-            if (!calculatorMap.containsKey(method)){
-                throw new IllegalStateException("Unknown Calculation Method: "+method);
+        return CompletableFuture.supplyAsync(() -> {
+            if (!calculatorMap.containsKey(method)) {
+                throw new IllegalStateException("Unknown Calculation Method: " + method);
             }
             this.currentMethod = method;
             RankDataCalculator calculator = calculatorMap.get(method);
-            playerData.forEach(data->{
+            playerData.forEach(data -> {
                 UUID player = data.getPlayerUniqueId();
                 RankData rankData = calculator.doCalculate(data, ImmutableList.copyOf(this.rankData), arrayCalculation);
                 this.rankDataMap.put(player, rankData);
@@ -56,17 +56,17 @@ public final class RankDataHandler implements RankDataManager {
     @Nullable
     @Override
     public PlayerData getPlayerData(UUID uuid) {
-        return playerData.stream().filter(data-> data.getPlayerUniqueId().equals(uuid)).findAny().orElse(null);
+        return playerData.stream().filter(data -> data.getPlayerUniqueId().equals(uuid)).findAny().orElse(null);
     }
 
     @Override
     public void update(UUID uuid) {
         PlayerData data = this.getPlayerData(uuid);
         if (data == null) {
-            throw new IllegalStateException("Cannot get the player data of uuid: "+uuid.toString());
+            throw new IllegalStateException("Cannot get the player data of uuid: " + uuid.toString());
         }
-        if (!calculatorMap.containsKey(currentMethod)){
-            throw new IllegalStateException("Unknown Calculation Method: "+currentMethod);
+        if (!calculatorMap.containsKey(currentMethod)) {
+            throw new IllegalStateException("Unknown Calculation Method: " + currentMethod);
         }
         RankDataCalculator calculator = calculatorMap.get(currentMethod);
         RankData rankData = calculator.doCalculate(data, ImmutableList.copyOf(this.rankData), arrayCalculation);
