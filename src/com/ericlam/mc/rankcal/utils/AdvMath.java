@@ -6,24 +6,24 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * AdvMath utils
+ */
 public final class AdvMath {
     private AdvMath() {
     }
 
     /**
+     * return the length of that number
      * @param num num
      * @return number length
      */
     public static int getLength(long num) {
-        num = num > 0 ? num : -num;
-        if (num == 0) {
-            return 1;
-        }
-        return (int) Math.log10(num) + 1;
-
+        return (num + "").length();
     }
 
     /**
+     * return the length of that number
      * @param num num
      * @return number length
      */
@@ -32,8 +32,7 @@ public final class AdvMath {
     }
 
     /**
-     * when over 0.5. round up, else round down
-     *
+     * when over 0.5, round up, else round down
      * @param f   round length
      * @param num value
      * @return rounded value

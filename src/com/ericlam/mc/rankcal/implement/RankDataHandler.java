@@ -6,6 +6,7 @@ import com.ericlam.mc.rankcal.RankDataCalculator;
 import com.ericlam.mc.rankcal.RankDataManager;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang.Validate;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 public final class RankDataHandler implements RankDataManager {
 
@@ -22,12 +24,14 @@ public final class RankDataHandler implements RankDataManager {
     private Map<String, RankDataCalculator> calculatorMap;
     private ArrayCalculation arrayCalculation;
     private Map<UUID, RankData> rankDataMap = new ConcurrentHashMap<>();
+    private Function<List<PlayerData>, CompletableFuture<Void>> saver;
     private String currentMethod = "z-score"; // Default Calculator
 
-    RankDataHandler(TreeSet<RankData> rankData, List<PlayerData> playerData, Map<String, RankDataCalculator> calculatorMap) {
+    RankDataHandler(TreeSet<RankData> rankData, List<PlayerData> playerData, Map<String, RankDataCalculator> calculatorMap, Function<List<PlayerData>, CompletableFuture<Void>> saver) {
         this.rankData = rankData;
         this.playerData = playerData;
         this.calculatorMap = calculatorMap;
+        this.saver = saver;
         this.arrayCalculation = new ArrayCalculation(playerData.stream().mapToDouble(PlayerData::getScore).toArray());
     }
 
@@ -81,5 +85,11 @@ public final class RankDataHandler implements RankDataManager {
 
     public ImmutableMap<UUID, RankData> getRankDataMap() {
         return ImmutableMap.copyOf(rankDataMap);
+    }
+
+    @Override
+    public CompletableFuture<Void> savePlayerData() {
+        Validate.notNull(saver, "Saving Mechanic is null");
+        return saver.apply(playerData);
     }
 }
