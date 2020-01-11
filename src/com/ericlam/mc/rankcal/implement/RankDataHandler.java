@@ -32,12 +32,14 @@ public final class RankDataHandler implements RankDataManager {
         this.playerData = playerData;
         this.calculatorMap = calculatorMap;
         this.saver = saver;
+        if (playerData.isEmpty()) return;
         this.arrayCalculation = new ArrayCalculation(playerData.stream().mapToDouble(PlayerData::getScore).toArray());
     }
 
     @Override
     public CompletableFuture<ImmutableMap<UUID, RankData>> doCalculate(String method) {
         return CompletableFuture.supplyAsync(() -> {
+            if (playerData.isEmpty()) return ImmutableMap.<UUID, RankData>builder().build();
             if (!calculatorMap.containsKey(method)) {
                 throw new IllegalStateException("Unknown Calculation Method: " + method);
             }
@@ -55,6 +57,9 @@ public final class RankDataHandler implements RankDataManager {
     @Override
     public void join(PlayerData data) {
         playerData.add(data);
+        if (playerData.size() == 1 && arrayCalculation == null) {
+            this.arrayCalculation = new ArrayCalculation(playerData.stream().mapToDouble(PlayerData::getScore).toArray());
+        }
     }
 
     @Nullable
